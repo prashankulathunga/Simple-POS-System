@@ -1,0 +1,25 @@
+.logo{
+    width: 110px;
+    height: auto;
+}
+.card{
+    max-width: 540px;
+    height: auto;
+    margin-bottom: 12px;
+}
+.check:active{
+    color: orange;
+}
+.bottom-outer{
+    width: 100%;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+.bottom-outer>button{
+    padding: 8px 12px;
+    font-size: 20px;
+    font-weight: 600;
+}
