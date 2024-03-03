@@ -18,7 +18,7 @@ const findById = (req, resp)=>{
         if (result == null) {
             return resp.status(404).json({status: false, message: 'order was not found!'});
         } else {
-            return resp.status(200).json({status: true, data: result});
+            return resp.status(200).json(result);
         }
     }).catch(error => {
         return resp.status(404).json(error);

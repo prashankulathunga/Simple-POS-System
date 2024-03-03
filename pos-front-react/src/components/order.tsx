@@ -1,15 +1,84 @@
-function Order() {
+import React, {useEffect, useState} from "react";
+import axios from "axios";
+import Customer from "./customer.tsx";
+import Product from "./product.tsx";
 
-    const spaceLine = {
+const Order: React.FC = ()=> {
+
+    const spaceLine: React.CSSProperties = {
         marginBottom: '16px',
         marginTop: '4px'
     }
 
+    const [customerDetails, setCustomerDetails] = useState<Customer[]>([]);
+    const [products, setProducts] = useState<Product[]>([]);
+
+
+    const [UpdateName, setUpdateName] = useState('');
+    const [UpdateAddress, setUpdateAddress] = useState('');
+    const [UpdateSalary, setUpdateSalary] = useState<number | ''>();
+
+    const [updateDescription, setUpdateDescription] = useState('');
+    const [updateUnitPrice, setUpdateUnitPrice] = useState<number | ''>('');
+    const [updateQtyOnHand, setUpdateQtyOnHand] = useState<number | ''>('');
+
+    useEffect(() => {
+        findAllCustomer();
+        findAllProduct();
+    }, []);
+
+
+    const selectOneData = async (id)=>{
+        const response = await axios.get('http://localhost:3000/api/v1/customers/find-by-id/'+id);
+        console.log(response.data);
+        setUpdateName(response.data.name);
+        setUpdateAddress(response.data.address);
+        setUpdateSalary(response.data.salary === ''? '' : parseFloat(response.data.salary));
+    }
+
+    const selectOnProductData = async (id)=>{
+        const response = await axios.get('http://localhost:3000/api/v1/products/find-by-id/'+id);
+
+        setUpdateDescription(response.data.description);
+        setUpdateUnitPrice(response.data.unitPrice === ''? '' : parseFloat(response.data.unitPrice));
+        setUpdateQtyOnHand(response.data.qtyOnHand === ''? '' : parseFloat(response.data.qtyOnHand));
+    }
+
+    const findAllCustomer = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/api/v1/customers/find-all?searchText=&page=1&size=10');
+            setCustomerDetails(response.data);
+            console.log(customerDetails);
+
+        }catch (error){
+            console.log(error);
+        }
+    }
+
+    const findAllProduct = async () => {
+        try {
+
+            const response = await axios.get('http://localhost:3000/api/v1/products/find-all?searchText=&page=1&size=10');
+            setProducts(response.data);
+            console.log(response.data);
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+
     return (
 
         <>
-            <br/>
             <div className="container">
+
+                <div className="header">
+                    <h3>Order Section</h3>
+                    <hr/>
+                    <br/>
+                </div>
 
                 <form>
                     <div className="row">
@@ -17,11 +86,16 @@ function Order() {
                         <div className="col-12 col-sm-6 col-md-3" style={spaceLine}>
                             <div className="form-group">
                                 <label htmlFor="selectCustomer">Select Customer</label>
-                                <select className="form-control" id="selectCustomer">
-                                    <option value='use options' disabled defaultValue='use options'>Select Customer
-                                    </option>
-                                    <option value='#'>Customer 1</option>
-                                    <option value='#'>Customer 2</option>
+                                <select className="form-control" id="selectCustomer" onChange={(e)=>{
+                                    selectOneData(e.target.value);
+
+                                }}>
+                                    <option value='use options' defaultValue='use options'>None Select One</option>
+
+                                    {customerDetails.map((customer, index)=>(
+                                        <option key={index+1} value={customer._id} >{customer.name}</option>
+                                    ))}
+
                                 </select>
                             </div>
                         </div>
@@ -30,7 +104,7 @@ function Order() {
                         <div className="col-12 col-sm-6 col-md-3" style={spaceLine}>
                             <div className="form-group">
                                 <label htmlFor="customerName">Customer Name</label>
-                                <input type="text" className="form-control" name="customerName" id="customerName"
+                                <input defaultValue={UpdateName} type="text" className="form-control" name="customerName" id="customerName"
                                        disabled/>
                             </div>
                         </div>
@@ -38,7 +112,7 @@ function Order() {
                         <div className="col-12 col-sm-6 col-md-3" style={spaceLine}>
                             <div className="form-group">
                                 <label htmlFor="customerAddress">Customer Address</label>
-                                <input type="text" className="form-control" name="customerName" id="customerAddress"
+                                <input defaultValue={UpdateAddress} type="text" className="form-control" name="customerName" id="customerAddress"
                                        disabled/>
                             </div>
 
@@ -47,7 +121,7 @@ function Order() {
                         <div className="col-12 col-sm-6 col-md-3" style={spaceLine}>
                             <div className="form-group">
                                 <label htmlFor="customerSalary">Salary</label>
-                                <input type="number" className="form-control" name="customerName" id="customerSalary"
+                                <input defaultValue={UpdateSalary} type="number" className="form-control" name="customerName" id="customerSalary"
                                        disabled/>
                             </div>
                         </div>
@@ -59,11 +133,15 @@ function Order() {
                         <div className="col-12 col-sm-6 col-md-3" style={spaceLine}>
                             <div className="form-group">
                                 <label htmlFor="selectProduct">Select Product</label>
-                                <select className="form-control" id="selectProduct">
-                                    <option value='use options' disabled defaultValue='use options'>Select Product
-                                    </option>
-                                    <option value='#'>Product 1</option>
-                                    <option value='#'>Product 2</option>
+                                <select className="form-control" id="selectProduct" onChange={(e)=>{
+                                    selectOnProductData(e.target.value);
+                                }}>
+                                    <option value='use options' defaultValue='use options'>Select Product</option>
+                                    {products.map((product, index)=>(
+                                          <option key={index+1} value={product._id}>{product.productName}</option>
+                                    )) }
+
+
                                 </select>
                             </div>
                         </div>
@@ -71,7 +149,7 @@ function Order() {
                         <div className="col-12 col-sm-6 col-md-3" style={spaceLine}>
                             <div className="form-group">
                                 <label htmlFor="Productdescription">Product Description</label>
-                                <input type="text" className="form-control" name="Productdescription"
+                                <input defaultValue={updateDescription} type="text" className="form-control" name="Productdescription"
                                        id="Productdescription" disabled/>
                             </div>
                         </div>
@@ -79,14 +157,14 @@ function Order() {
                         <div className="col-12 col-sm-4 col-md-2" style={spaceLine}>
                             <div className="form-group">
                                 <label htmlFor="unitPrice">Unit Price</label>
-                                <input type="text" className="form-control" name="unitPrice" id="unitPrice" disabled/>
+                                <input defaultValue={updateUnitPrice} type="text" className="form-control" name="unitPrice" id="unitPrice" disabled/>
                             </div>
                         </div>
 
                         <div className="col-12 col-sm-4 col-md-2" style={spaceLine}>
                             <div className="form-group">
                                 <label htmlFor="qtnOnHand"> QTY On Hand</label>
-                                <input type="text" className="form-control" name="qtnOnHand" id="qtnOnHand" disabled/>
+                                <input defaultValue={updateQtyOnHand} type="text" className="form-control" name="qtnOnHand" id="qtnOnHand" disabled/>
                             </div>
                         </div>
 
@@ -122,7 +200,7 @@ function Order() {
                 <br/>
                 <div className="row">
                     <div className="col-12">
-                        <table className='table table-hover table-hover'>
+                        <table className='table table-hover table-hover table-bordered'>
                             <thead>
                             <tr>
                                 <th>Product Name</th>
