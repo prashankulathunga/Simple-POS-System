@@ -50,6 +50,20 @@ const findAll = (req, resp) => {
 
 }
 
+
+const findAllCount = (req, resp)=>{
+    try{
+
+        CustomerSchema.countDocuments().then(response=>{
+            return resp.status(200).json(response);
+        })
+
+
+    }catch (error){
+        return resp.status(500).json({message: 'internal server error!'});
+    }
+}
+
 const deleteById = async (req, resp) => {
     const deletedData = await CustomerSchema.findByIdAndDelete({'_id': req.params.id});
 
@@ -83,5 +97,6 @@ module.exports = {
     findById,
     findAll,
     deleteById,
-    update
+    update,
+    findAllCount
 }

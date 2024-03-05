@@ -4,7 +4,7 @@ interface DefaultCardData{
     thumbnail:string,
     title:string,
     description:string,
-    value:number,
+    value:number | undefined,
     code:number
 }
 
@@ -24,7 +24,7 @@ function DefaultCard(props:DefaultCardData){
                         <div className="card-body">
                             <h5 className="card-title">{title}</h5>
                             <p className="card-text">{description}</p>
-                            <p className="card-text"><small className="text-body-secondary">{value}</small></p>
+                            <p className="card-text"><small className="text-body-secondary" style={{fontSize:'24px', fontWeight: 'bold'}}>{value}</small></p>
                         </div>
                     </div>
                 </div>
