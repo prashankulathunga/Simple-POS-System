@@ -58,15 +58,17 @@ const Product: React.FC = () => {
 
     const saveProduct = async () => {
 
+        const imageUrl = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWe6CCEKXHsetb0U0MrV7Xw9HT5qGBqbAByA&usqp=CAU';
+
         try {
 
-            const response = await axios.post('http://localhost:3000/api/v1/products/create', {
+           await axios.post('http://localhost:3000/api/v1/products/create', {
                 productName,
                 description,
                 unitPrice,
-                qtyOnHand
+                qtyOnHand,
+                image:imageUrl
             });
-            console.log(response);
             findAllProduct();
 
             setProductName('');
@@ -215,6 +217,7 @@ const Product: React.FC = () => {
                                 <th>Product Name</th>
                                 <th>Qty On Hand</th>
                                 <th>Unit Price</th>
+                                <th>Description</th>
                                 <th>Delete Option</th>
                                 <th>Update Option</th>
                                 <th>More Info</th>
@@ -245,7 +248,7 @@ const Product: React.FC = () => {
                                             }}>Update</button>
                                         </td>
                                         <td>
-                                            <button className="btn btn-sm btn-warning">See More</button>
+                                            <button className="btn btn-sm btn-outline-info">See More</button>
                                         </td>
                                     </tr>
                                 )

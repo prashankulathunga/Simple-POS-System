@@ -9,6 +9,7 @@ router.post('/create', CustomerController.create);
 router.get('/find-by-id/:id', CustomerController.findById);
 // router.get('/find-all', verifyToken, CustomerController.findAll);
 router.get('/find-all', CustomerController.findAll);
+router.get('/find-all-count', CustomerController.findAllCount);
 // router.delete('/delete-by-id', verifyToken, CustomerController.deleteById);
 router.delete('/delete-by-id/:id', CustomerController.deleteById);
 // router.put('/update', verifyToken, CustomerController.update);

@@ -13,7 +13,7 @@ function App() {
         <Router>
 
             <div>
-                <nav className="navbar navbar-expand-lg bg-body-tertiary">
+                <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top">
                     <div className="container-fluid">
                         <div className="navbar-brand">
 
@@ -38,7 +38,7 @@ function App() {
                                     <Link to={'/product'} className="nav-link"><span className="check">Product</span></Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link to={'/order'} className="nav-link" aria-disabled="true"><span className="check">Order</span></Link>
+                                    <Link to={'/order'} className="nav-link" aria-disabled="true"><span className="check">OrderManagement</span></Link>
                                 </li>
                             </ul>
                         </div>
@@ -46,7 +46,7 @@ function App() {
                 </nav>
             </div>
             <hr/>
-            <br/>
+            <div style={{marginBottom:'78px'}}></div>
             <Routes>
 
                 <Route path='/' element={<Home/>}/>

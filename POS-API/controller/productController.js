@@ -50,6 +50,30 @@ const findAll = (req, resp)=>{
     }
 }
 
+const findAllMin = (req, resp)=>{
+    try {
+
+        ProductSchema.find({qtyOnHand: {$lt:15}}).then(
+            response=>{return resp.status(200).json(response);}
+        )
+
+
+    } catch (e) {
+        return resp.status(500).json(e);
+    }
+}
+const findAllCount = (req, resp)=>{
+    try {
+
+        ProductSchema.countDocuments().then(
+            response=>{return resp.status(200).json(response);}
+        )
+
+    } catch (e) {
+        return resp.status(500).json(e);
+    }
+}
+
 const deleteById = async (req, resp)=>{
     const deletedData = await ProductSchema.findByIdAndDelete({'_id': req.params.id});
 
@@ -84,5 +108,7 @@ module.exports = {
     findById,
     findAll,
     deleteById,
-    update
+    update,
+    findAllMin,
+    findAllCount
 }
