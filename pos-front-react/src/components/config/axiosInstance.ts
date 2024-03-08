@@ -12,7 +12,7 @@ instance.interceptors.request.use(
         let token = document.cookie.split('; ').find(record=>record.startsWith('token=')) || null;
 
         token = token?.split('=')[1];
-        config.headers.Authorization = token;
+        config.headers.Authorization = `Bearer ${token}`;
         return config;
     },
     (error)=>{return Promise.reject(error)}
