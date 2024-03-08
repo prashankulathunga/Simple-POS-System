@@ -5,6 +5,8 @@ import Customer from "./components/customer.tsx";
 import Product from "./components/product.tsx";
 import Order from "./components/order.tsx";
 import 'bootstrap/dist/css/bootstrap.min.css'
+import Login from "./components/login.tsx";
+import Signup from "./components/signup.tsx";
 
 function App() {
 
@@ -40,6 +42,9 @@ function App() {
                                 <li className="nav-item">
                                     <Link to={'/order'} className="nav-link" aria-disabled="true"><span className="check">OrderManagement</span></Link>
                                 </li>
+                                <li className="nav-item">
+                                    <Link to={'/login'} className="nav-link" aria-disabled="true"><span className="check">LoginSystemTemp</span></Link>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -53,6 +58,8 @@ function App() {
                 <Route path='/customer' element={<Customer/>}/>
                 <Route path='/product' element={<Product/>}/>
                 <Route path='/order' element={<Order/>}/>
+                <Route path='/login' element={<Login/>}/>
+                <Route path='/signup' element={<Signup/>}/>
 
             </Routes>
         </Router>

@@ -16,7 +16,7 @@ const register = async (req, resp) => {
                     fullName: req.body.fullName,
                     email: req.body.email,
                     password: hash,
-                    activeState: req.body.activeState
+                    activeState: true
                 });
 
                 const transporter = nodemailer.createTransport({
@@ -64,9 +64,9 @@ const login = async (req, resp) => {
                     return resp.status(500).json(err);
                 }
                 if (result){
-                    const token = jsonWebToken.sign({'email':selectedUser.email}, process.env.SECRET_KEY,{expiresIn: 3600});
+                    const token = jsonWebToken.sign({'email':selectedUser.email}, process.env.SECRET_KEY,{expiresIn: '24h'});
                     resp.setHeader('Authorization', `Bearer ${token}`);
-                    return resp.status(201).json({status: true, token:'check the headers'});
+                    return resp.status(201).json(token);
                 }else{
                     return resp.status(401).json({status: true, 'message': 'password was wrong!'});
                 }

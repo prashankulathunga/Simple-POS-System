@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import axios from "axios";
+import AxiosInstance from "../components/config/axiosInstance.ts";
 import Customer from "./customer.tsx";
 import Product from "./product.tsx";
 
@@ -44,7 +44,7 @@ const Order: React.FC = ()=> {
 
 
     const selectOneData = async (id)=>{
-        const response = await axios.get('http://localhost:3000/api/v1/customers/find-by-id/'+id);
+        const response = await AxiosInstance.get('/customers/find-by-id/'+id);
         console.log(response.data);
         setSelectedCustomer(response.data);
         setUpdateName(response.data.name);
@@ -53,7 +53,7 @@ const Order: React.FC = ()=> {
     }
 
     const selectOnProductData = async (id)=>{
-        const response = await axios.get('http://localhost:3000/api/v1/products/find-by-id/'+id);
+        const response = await AxiosInstance.get('/products/find-by-id/'+id);
 
         setSelectedProduct(response.data);
         setUpdateDescription(response.data.description);
@@ -63,7 +63,7 @@ const Order: React.FC = ()=> {
 
     const findAllCustomer = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/api/v1/customers/find-all?searchText=&page=1&size=10');
+            const response = await AxiosInstance.get('/customers/find-all?searchText=&page=1&size=10');
             setCustomerDetails(response.data);
             console.log(customerDetails);
 
@@ -75,7 +75,7 @@ const Order: React.FC = ()=> {
     const findAllProduct = async () => {
         try {
 
-            const response = await axios.get('http://localhost:3000/api/v1/products/find-all?searchText=&page=1&size=10');
+            const response = await AxiosInstance.get('/products/find-all?searchText=&page=1&size=10');
             setProducts(response.data);
             console.log(response.data);
 
@@ -91,7 +91,7 @@ const Order: React.FC = ()=> {
     const saveOrder = async ()=>{
         try{
 
-            await axios.post('http://localhost:3000/api/v1/orders/create',{
+            await AxiosInstance.post('/orders/create',{
                 date:new Date(),
                 customerDetails: selectedCustomer,
                 totalCost:250,
@@ -298,7 +298,7 @@ const Order: React.FC = ()=> {
                 <br/>
                 <hr/>
                 <div className="row">
-                    <div className="bottom-outer">
+                    <div className="bottom-outer-order">
                         <h1 style={{color: "#34495e", fontWeight: "bold"}}>Total: {netTotal}</h1>
                         <button className="btn btn-warning col-2" onClick={saveOrder}>Place Order</button>
                     </div>
