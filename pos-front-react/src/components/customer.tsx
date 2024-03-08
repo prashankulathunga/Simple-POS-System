@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import axios from "axios";
+import AxiosInstance from "../components/config/axiosInstance.ts";
 import {Modal} from 'react-bootstrap'
 
 
@@ -30,14 +30,14 @@ const Customer: React.FC = () => {
 
 
     const updateCustomer = async (id)=>{
-        const response = await axios.put('http://localhost:3000/api/v1/customers/update/'+id, {name:UpdateName, address:UpdateAddress, salary:UpdateSalary});
+        const response = await AxiosInstance.put('/customers/update/'+id, {name:UpdateName, address:UpdateAddress, salary:UpdateSalary});
         console.log(response);
         setModalState(false);
         findAllCustomer();
     }
 
     const loadModel = async (id)=>{
-        const response = await axios.get('http://localhost:3000/api/v1/customers/find-by-id/'+id);
+        const response = await AxiosInstance.get('/customers/find-by-id/'+id);
         console.log(response.data);
         setCustomerId(response.data._id);
         setUpdateName(response.data.name);
@@ -49,7 +49,7 @@ const Customer: React.FC = () => {
 
     const deleteCustomer= async (id)=>{
         try {
-            await axios.delete('http://localhost:3000/api/v1/customers/delete-by-id/'+id);
+            await AxiosInstance.delete('/customers/delete-by-id/'+id);
             findAllCustomer();
         }catch (error){
             console.log(error);
@@ -58,7 +58,7 @@ const Customer: React.FC = () => {
 
     const findAllCustomer = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/api/v1/customers/find-all?searchText=&page=1&size=10');
+            const response = await AxiosInstance.get('/customers/find-all?searchText=&page=1&size=10');
             setCustomers(response.data);
         }catch (error){
             console.log(error);
@@ -69,7 +69,7 @@ const Customer: React.FC = () => {
 
         try {
 
-            const response = await axios.post('http://localhost:3000/api/v1/customers/create', {name, address, salary});
+            const response = await AxiosInstance.post('/customers/create', {name, address, salary});
             console.log(response);
             findAllCustomer();
             setName('');

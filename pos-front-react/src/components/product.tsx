@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import axios from "axios";
+import AxiosInstance from "../components/config/axiosInstance.ts";
 import {Modal} from 'react-bootstrap'
 interface Product {
     _id: string;
@@ -40,7 +40,7 @@ const Product: React.FC = () => {
 
     try {
 
-       const response = await axios.get('http://localhost:3000/api/v1/products/find-by-id/'+id);
+       const response = await AxiosInstance.get('/products/find-by-id/'+id);
 
         setProductId(response.data._id);
         setUpdateProductName(response.data.productName);
@@ -62,7 +62,7 @@ const Product: React.FC = () => {
 
         try {
 
-           await axios.post('http://localhost:3000/api/v1/products/create', {
+           await AxiosInstance.post('/products/create', {
                 productName,
                 description,
                 unitPrice,
@@ -86,7 +86,7 @@ const Product: React.FC = () => {
     const findAllProduct = async () => {
         try {
 
-            const response = await axios.get('http://localhost:3000/api/v1/products/find-all?searchText=&page=1&size=10');
+            const response = await AxiosInstance.get('/products/find-all?searchText=&page=1&size=10');
             setProducts(response.data);
             console.log(response.data);
 
@@ -97,7 +97,7 @@ const Product: React.FC = () => {
     const deleteProduct = async (id) => {
         try {
 
-            await axios.delete('http://localhost:3000/api/v1/products/delete-by-id/'+id);
+            await AxiosInstance.delete('/products/delete-by-id/'+id);
             findAllProduct();
 
         } catch (error) {
@@ -108,7 +108,7 @@ const Product: React.FC = () => {
     const updateProduct = async ()=>{
         try {
 
-            await axios.put('http://localhost:3000/api/v1/products/update/'+productId, {
+            await AxiosInstance.put('/products/update/'+productId, {
                 productName:updateProductName,
                 description:updateDescription,
                 unitPrice:updateUnitPrice,
